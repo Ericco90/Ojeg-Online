@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ojeg Kilat - Cek Tarif & Pesan Ojeg</title>
+    <title>Ojeg Bregas Kilat - Cek Tarif & Pesan Ojeg</title>
     
-    <!-- Google Fonts: Poppins -->
+    <!-- Google Fonts: Poppins & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,14 +18,25 @@
                 extend: {
                     fontFamily: {
                         sans: ['Poppins', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
                     },
                     colors: {
                         ojeg: {
                             yellow: '#facc15',
-                            dark: '#111827',
-                            card: '#1f2937',
-                            border: '#374151',
-                            hover: '#4b5563'
+                            dark: '#0f172a',
+                            card: 'rgba(30, 41, 59, 0.7)',
+                            border: 'rgba(255, 255, 255, 0.1)',
+                            hover: 'rgba(255, 255, 255, 0.05)'
+                        }
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
                         }
                     }
                 }
@@ -33,121 +44,165 @@
         }
     </script>
     <style>
-        body { background-color: #111827; color: #f9fafb; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background-color: #020617; 
+            color: #f8fafc; 
+            -webkit-tap-highlight-color: transparent; 
+            background-image: radial-gradient(circle at top right, #1e1b4b, #020617 40%);
+            min-height: 100vh;
+        }
+        
         /* Kustom scrollbar untuk dropdown */
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #1f2937; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(250, 204, 21, 0.3); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(250, 204, 21, 0.5); }
+
+        /* Glass Input Autofill Fix */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #1e293b inset !important;
+            -webkit-text-fill-color: white !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center py-6 px-4">
+<body class="flex flex-col items-center py-8 px-4 overflow-x-hidden relative">
+
+    <!-- Ornamen Latar Belakang Abstrak (Premium Look) -->
+    <div class="fixed top-[-10%] left-[-10%] w-72 h-72 bg-yellow-500/20 rounded-full blur-[100px] pointer-events-none animate-pulse-slow"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
 
     <!-- Header -->
-    <header class="w-full max-w-md text-center mb-8 mt-4">
-        <div class="inline-flex items-center justify-center bg-ojeg-card p-4 rounded-full border border-ojeg-border shadow-lg mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#facc15" viewBox="0 0 256 256">
+    <header class="w-full max-w-md text-center mb-10 mt-2 animate-fade-in-up" style="animation-delay: 0.1s;">
+        <div class="inline-flex items-center justify-center bg-gradient-to-br from-yellow-400 to-yellow-600 p-4 rounded-2xl shadow-[0_10px_40px_-10px_rgba(250,204,21,0.5)] mb-5 transform transition hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#0f172a" viewBox="0 0 256 256">
                 <path d="M248,104a8,8,0,0,0-8-8H209.68l-15.17-45.5A16,16,0,0,0,179.34,40H112a8,8,0,0,0,0,16h67.34l10.66,32H131.78l-11.83-35.49A16,16,0,0,0,104.78,40H40a8,8,0,0,0,0,16h64.78l10.67,32H40a8,8,0,0,0-8,8v16H16a8,8,0,0,0,0,16H32v18.06A40,40,0,1,0,48,184V128h82v56a40,40,0,1,0,16,0V128h78v18.06A40,40,0,1,0,240,184V128h8A8,8,0,0,0,248,104ZM64,184a24,24,0,1,1,24-24A24,24,0,0,1,64,184Zm128,0a24,24,0,1,1,24-24A24,24,0,0,1,192,184Z"></path>
             </svg>
         </div>
-        <h1 class="text-3xl font-bold text-ojeg-yellow tracking-tight">Ojeg Bregas Kilat</h1>
-        <p class="text-gray-400 mt-1 text-sm font-medium">Khusus Area Brebes,Tegal & Slawi</p>
+        <h1 class="text-3xl font-extrabold text-white tracking-tight">Ojeg Bregas <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">Kilat</span></h1>
+        <p class="text-gray-400 mt-1.5 text-sm font-medium font-inter">Cepat, Aman & Terjangkau • Khusus Brebes, Tegal & Slawi</p>
     </header>
 
-    <main class="w-full max-w-md bg-ojeg-card rounded-2xl shadow-2xl border border-ojeg-border p-6 mb-8 relative overflow-hidden">
+    <!-- Main Card (Glassmorphism) -->
+    <main class="w-full max-w-md bg-ojeg-card backdrop-blur-xl rounded-3xl shadow-2xl border border-ojeg-border p-7 mb-8 relative z-10 animate-fade-in-up" style="animation-delay: 0.2s;">
         
-        <div class="space-y-4 relative z-10">
+        <div class="space-y-5">
             <!-- Nama -->
-            <div class="relative">
-                <label for="customerName" class="block text-sm font-semibold text-gray-300 mb-1.5 ml-1">Nama Pemesan</label>
-                <input type="text" id="customerName" placeholder="Nama Anda..." class="w-full bg-ojeg-dark border border-ojeg-border rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-ojeg-yellow transition-all">
+            <div class="relative group">
+                <label for="customerName" class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 ml-1 group-focus-within:text-ojeg-yellow transition-colors">Nama Pemesan</label>
+                <input type="text" id="customerName" placeholder="Masukkan nama Anda..." class="w-full bg-[#0f172a]/50 border border-ojeg-border rounded-2xl px-4 py-4 text-white text-sm focus:outline-none focus:border-yellow-400/50 focus:ring-4 focus:ring-yellow-400/10 transition-all font-inter placeholder-gray-500">
             </div>
 
             <!-- Jemput -->
-            <div class="relative">
-                <label for="origin" class="block text-sm font-semibold text-gray-300 mb-1.5 ml-1">Titik Jemput</label>
+            <div class="relative group">
+                <label for="origin" class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 ml-1 group-focus-within:text-ojeg-yellow transition-colors">Lokasi Penjemputan</label>
                 <div class="relative flex items-center">
-                    <div class="absolute left-4 text-green-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.25,144.53,209,128,222Z"></path></svg>
+                    <div class="absolute left-4 text-emerald-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.25,144.53,209,128,222Z"></path></svg>
                     </div>
-                    <input type="text" id="origin" placeholder="Ketik nama desa/kecamatan..." autocomplete="off" class="w-full bg-ojeg-dark border border-ojeg-border rounded-xl pl-11 pr-10 py-3.5 text-white text-sm focus:outline-none focus:border-ojeg-yellow transition-all">
+                    <input type="text" id="origin" placeholder="Ketik nama jalan / desa..." autocomplete="off" class="w-full bg-[#0f172a]/50 border border-ojeg-border rounded-2xl pl-12 pr-10 py-4 text-white text-sm focus:outline-none focus:border-yellow-400/50 focus:ring-4 focus:ring-yellow-400/10 transition-all font-inter placeholder-gray-500">
+                    
                     <!-- Indikator Sukses Pilih -->
-                    <div id="origin-check" class="absolute right-4 text-green-500 hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM224,128a96,96,0,1,1-96-96A96.11,96.11,0,0,1,224,128Zm-16,0a80,80,0,1,0-80,80A80.09,80.09,0,0,0,208,128Z"></path></svg>
+                    <div id="origin-check" class="absolute right-4 text-emerald-400 hidden animate-pulse">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM224,128a96,96,0,1,1-96-96A96.11,96.11,0,0,1,224,128Zm-16,0a80,80,0,1,0-80,80A80.09,80.09,0,0,0,208,128Z"></path></svg>
                     </div>
                 </div>
                 <!-- Dropdown Saran Lokasi Jemput -->
-                <div id="origin-list" class="absolute w-full bg-[#2a374a] border border-ojeg-border rounded-xl mt-1 hidden z-50 max-h-48 overflow-y-auto custom-scrollbar shadow-xl"></div>
+                <div id="origin-list" class="absolute w-full bg-[#1e293b]/95 backdrop-blur-xl border border-ojeg-border rounded-2xl mt-2 hidden z-50 max-h-56 overflow-y-auto custom-scrollbar shadow-2xl overflow-hidden divide-y divide-ojeg-border"></div>
+            </div>
+
+            <!-- Garis Penghubung Dekoratif (Terlihat jika desain memanjang) -->
+            <div class="relative w-full h-2 flex justify-center items-center">
+                <div class="w-1 h-6 border-l-2 border-dashed border-gray-600"></div>
             </div>
 
             <!-- Tujuan -->
-            <div class="relative">
-                <label for="destination" class="block text-sm font-semibold text-gray-300 mb-1.5 ml-1">Tujuan</label>
+            <div class="relative group">
+                <label for="destination" class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 ml-1 group-focus-within:text-ojeg-yellow transition-colors">Lokasi Tujuan</label>
                 <div class="relative flex items-center">
-                    <div class="absolute left-4 text-red-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M128,16a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.25,144.53,209,128,222Zm40-118a40,40,0,1,1-40-40A40,40,0,0,1,168,104Zm-16,0a24,24,0,1,0-24,24A24,24,0,0,0,152,104Z"></path></svg>
+                    <div class="absolute left-4 text-rose-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M128,16a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.25,144.53,209,128,222Zm40-118a40,40,0,1,1-40-40A40,40,0,0,1,168,104Zm-16,0a24,24,0,1,0-24,24A24,24,0,0,0,152,104Z"></path></svg>
                     </div>
-                    <input type="text" id="destination" placeholder="Ketik nama desa/kecamatan..." autocomplete="off" class="w-full bg-ojeg-dark border border-ojeg-border rounded-xl pl-11 pr-10 py-3.5 text-white text-sm focus:outline-none focus:border-ojeg-yellow transition-all">
+                    <input type="text" id="destination" placeholder="Ketik nama jalan / desa..." autocomplete="off" class="w-full bg-[#0f172a]/50 border border-ojeg-border rounded-2xl pl-12 pr-10 py-4 text-white text-sm focus:outline-none focus:border-yellow-400/50 focus:ring-4 focus:ring-yellow-400/10 transition-all font-inter placeholder-gray-500">
+                    
                     <!-- Indikator Sukses Pilih -->
-                    <div id="dest-check" class="absolute right-4 text-green-500 hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM224,128a96,96,0,1,1-96-96A96.11,96.11,0,0,1,224,128Zm-16,0a80,80,0,1,0-80,80A80.09,80.09,0,0,0,208,128Z"></path></svg>
+                    <div id="dest-check" class="absolute right-4 text-emerald-400 hidden animate-pulse">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM224,128a96,96,0,1,1-96-96A96.11,96.11,0,0,1,224,128Zm-16,0a80,80,0,1,0-80,80A80.09,80.09,0,0,0,208,128Z"></path></svg>
                     </div>
                 </div>
                 <!-- Dropdown Saran Lokasi Tujuan -->
-                <div id="destination-list" class="absolute w-full bg-[#2a374a] border border-ojeg-border rounded-xl mt-1 hidden z-50 max-h-48 overflow-y-auto custom-scrollbar shadow-xl"></div>
+                <div id="destination-list" class="absolute w-full bg-[#1e293b]/95 backdrop-blur-xl border border-ojeg-border rounded-2xl mt-2 hidden z-50 max-h-56 overflow-y-auto custom-scrollbar shadow-2xl overflow-hidden divide-y divide-ojeg-border"></div>
                 
-                <p class="text-[10px] text-gray-400 mt-1.5">*Wajib pilih alamat dari saran (dropdown) yang muncul.</p>
+                <p class="text-[11px] text-gray-500 mt-2 ml-1 flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path></svg>
+                    Wajib pilih lokasi dari daftar saran otomatis.
+                </p>
             </div>
         </div>
 
         <!-- Notifikasi Error -->
-        <div id="error-message" class="hidden mt-4 text-red-400 text-sm font-medium text-center bg-red-900/20 p-3 rounded-lg border border-red-800/50 relative z-10">
+        <div id="error-message" class="hidden mt-5 text-rose-300 text-sm font-medium text-center bg-rose-950/40 p-4 rounded-xl border border-rose-900/50 backdrop-blur-sm shadow-inner transition-all">
             Pesan Error Disini
         </div>
 
-        <!-- Tombol Hitung (Ditambahkan Kembali) -->
-        <button id="btn-calculate" onclick="checkAndCalculate()" class="w-full mt-6 bg-ojeg-yellow hover:bg-yellow-400 text-ojeg-dark font-bold py-3.5 rounded-xl shadow-[0_0_15px_rgba(250,204,21,0.2)] transition-all transform active:scale-[0.98] flex justify-center items-center gap-2 text-base relative z-10">
+        <!-- Tombol Hitung -->
+        <button id="btn-calculate" onclick="checkAndCalculate()" class="w-full mt-8 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-300 hover:to-yellow-400 text-slate-900 font-bold py-4 rounded-2xl shadow-[0_10px_20px_-10px_rgba(250,204,21,0.6)] transition-all transform hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 flex justify-center items-center gap-2 text-base">
             <span>Cek Tarif Sekarang</span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path></svg>
         </button>
 
-        <!-- Loading -->
-        <div id="loading" class="hidden mt-6 text-center text-ojeg-yellow relative z-10">
-            <svg class="animate-spin h-8 w-8 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <p class="mt-2 text-sm font-medium" id="loading-text">Menghitung jarak & tarif...</p>
+        <!-- Loading Modern -->
+        <div id="loading" class="hidden mt-8 text-center relative">
+            <div class="inline-block relative w-12 h-12">
+                <div class="absolute top-0 left-0 w-full h-full border-4 border-yellow-500/20 rounded-full"></div>
+                <div class="absolute top-0 left-0 w-full h-full border-4 border-yellow-400 rounded-full border-t-transparent animate-spin"></div>
+            </div>
+            <p class="mt-4 text-sm font-medium text-yellow-400 animate-pulse" id="loading-text">Kalkulasi rute cerdas...</p>
         </div>
 
         <!-- Hasil Perhitungan -->
-        <div id="result-section" class="hidden mt-6 relative z-10">
-            <div class="bg-ojeg-dark rounded-xl p-4 border border-ojeg-border mb-5">
-                <div class="flex justify-between items-center mb-3 pb-3 border-b border-ojeg-border/50">
+        <div id="result-section" class="hidden mt-8 animate-fade-in-up">
+            <div class="bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl p-5 border border-white/5 shadow-inner mb-6 relative overflow-hidden">
+                <!-- Aksen glow di dalam result card -->
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-yellow-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <div class="flex justify-between items-center mb-4 pb-4 border-b border-white/5 relative z-10">
                     <div>
-                        <p class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-1">Jarak Tempuh</p>
-                        <p id="distance-display" class="text-xl font-bold text-white">0.00 KM</p>
+                        <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Total Jarak</p>
+                        <p class="text-2xl font-bold text-white flex items-end gap-1">
+                            <span id="distance-display">0.00</span>
+                            <span class="text-sm font-medium text-gray-400 mb-1">KM</span>
+                        </p>
                     </div>
                     <div class="text-right">
-                        <p class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-1">Total Biaya</p>
-                        <p id="price-display" class="text-2xl font-bold text-ojeg-yellow">Rp 0</p>
+                        <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mb-1">Estimasi Harga</p>
+                        <p id="price-display" class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500">Rp 0</p>
                     </div>
                 </div>
-                <div class="flex justify-between text-xs text-gray-500">
-                    <span>Min. order Rp 10.000</span>
-                    <span>Tarif Rp 2.500/KM</span>
+                <div class="flex justify-between text-[11px] text-gray-500 font-medium relative z-10">
+                    <span class="bg-black/30 px-2 py-1 rounded text-gray-400">Min. order Rp 10rb</span>
+                    <span class="bg-black/30 px-2 py-1 rounded text-gray-400">Rp 2.500 / KM</span>
                 </div>
             </div>
             
-            <button onclick="orderWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold py-3.5 rounded-xl shadow-[0_0_15px_rgba(37,211,102,0.2)] transition-all flex justify-center items-center gap-2 mb-3 text-base">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 256 256"><path d="M187.58,144.84l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88,40,40,0,0,0,40-40A8,8,0,0,0,187.58,144.84ZM152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23-10.15,15.23a8,8,0,0,0-.8,8.18,56.6,56.6,0,0,0,33.64,33.64,8,8,0,0,0,8.18-.8l15.23-10.15,23,11.48A24,24,0,0,1,152,176ZM128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L44,214.61l11.09-33.27a8,8,0,0,0-.67-6.54A88,88,0,1,1,128,216Z"></path></svg>
+            <button onclick="orderWhatsApp()" class="w-full bg-gradient-to-r from-[#25D366] to-[#1EBE57] hover:from-[#20bd5a] hover:to-[#1aa84d] text-white font-bold py-4 rounded-2xl shadow-[0_10px_20px_-10px_rgba(37,211,102,0.5)] transition-all transform hover:-translate-y-0.5 active:scale-[0.98] flex justify-center items-center gap-3 mb-4 text-base">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"><path d="M187.58,144.84l-32-16a8,8,0,0,0-8,.5l-14.69,9.8a40.55,40.55,0,0,1-16-16l9.8-14.69a8,8,0,0,0,.5-8l-16-32A8,8,0,0,0,104,64a40,40,0,0,0-40,40,88.1,88.1,0,0,0,88,88,40,40,0,0,0,40-40A8,8,0,0,0,187.58,144.84ZM152,176a72.08,72.08,0,0,1-72-72A24,24,0,0,1,99.29,80.46l11.48,23-10.15,15.23a8,8,0,0,0-.8,8.18,56.6,56.6,0,0,0,33.64,33.64,8,8,0,0,0,8.18-.8l15.23-10.15,23,11.48A24,24,0,0,1,152,176ZM128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L44,214.61l11.09-33.27a8,8,0,0,0-.67-6.54A88,88,0,1,1,128,216Z"></path></svg>
                 Pesan via WhatsApp
             </button>
-            <button onclick="resetForm()" class="w-full bg-transparent border-2 border-ojeg-border hover:bg-ojeg-dark text-gray-300 font-semibold py-3 rounded-xl transition-all">
-                Reset Ulang
+            <button onclick="resetForm()" class="w-full bg-transparent border border-white/10 hover:bg-white/5 hover:border-white/20 text-gray-300 font-semibold py-3.5 rounded-2xl transition-all font-inter text-sm flex justify-center items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a96,96,0,1,1-96-96V16a8,8,0,0,1,13.66-5.66l28.28,28.29a8,8,0,0,1,0,11.31L141.66,79.66A8,8,0,0,1,128,74V48a80,80,0,1,0,80,80,8,8,0,0,1,16,0Z"></path></svg>
+                Hitung Rute Baru
             </button>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto text-center text-gray-500/80 text-xs font-inter pb-4 animate-fade-in-up" style="animation-delay: 0.3s;">
+        <p>&copy; 2026 Ojeg Bregas Kilat. Dibangun dengan <span class="text-rose-500">♥</span> untuk lokal.</p>
+    </footer>
 
     <!-- LOGIC 100% BEBAS GOOGLE API KEY -->
     <script>
@@ -193,7 +248,7 @@
                 }
 
                 timeoutId = setTimeout(async () => {
-                    list.innerHTML = '<div class="p-3 text-xs text-gray-400">Mencari desa/lokasi...</div>';
+                    list.innerHTML = '<div class="p-4 flex items-center justify-center gap-2 text-xs text-yellow-400/80"><svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Mencari lokasi...</div>';
                     list.classList.remove('hidden');
 
                     try {
@@ -211,14 +266,26 @@
                                 const alamat = item.display_name;
                                 const alamatKecil = alamat.toLowerCase();
                                 
-                                if (alamatKecil.includes('brebes') || alamatKecil.includes('tegal')) {
+                                // Kunci ganda: Pastikan Slawi yang dimaksud adalah Slawi di Tegal/Jawa Tengah
+                                const isBrebes = alamatKecil.includes('brebes');
+                                const isTegal = alamatKecil.includes('tegal');
+                                const isSlawiValid = alamatKecil.includes('slawi') && (alamatKecil.includes('tegal') || alamatKecil.includes('jawa tengah'));
+                                
+                                if (isBrebes || isTegal || isSlawiValid) {
                                     hasValidArea = true;
                                     const div = document.createElement('div');
-                                    div.className = "p-3 border-b border-ojeg-border hover:bg-ojeg-hover cursor-pointer text-sm text-gray-200 transition-colors";
+                                    div.className = "p-3 hover:bg-white/10 cursor-pointer transition-colors group";
                                     
-                                    const alamatPendek = alamat.split(',').slice(0, 4).join(',');
-                                    div.innerText = alamatPendek;
+                                    const parts = alamat.split(',');
+                                    const mainText = parts[0];
+                                    const subText = parts.slice(1, 4).join(', ');
                                     
+                                    div.innerHTML = `
+                                        <div class="text-sm font-medium text-gray-200 group-hover:text-yellow-400 transition-colors">${mainText}</div>
+                                        <div class="text-[10px] text-gray-500 mt-0.5 truncate">${subText}</div>
+                                    `;
+                                    
+                                    const alamatPendek = parts.slice(0, 4).join(',');
                                     div.onclick = () => {
                                         input.value = alamatPendek;
                                         if (isOrigin) {
@@ -237,12 +304,12 @@
                         }
 
                         if (!hasValidArea) {
-                            list.innerHTML = '<div class="p-3 text-xs text-red-400 text-center font-medium">Lokasi tidak ditemukan. Pastikan mengetik nama desa/kecamatan di Tegal/Brebes.</div>';
+                            list.innerHTML = '<div class="p-4 text-xs text-rose-400 text-center font-medium bg-rose-500/10">Lokasi tidak ditemukan. Pastikan nama desa valid di area Brebes atau Tegal (termasuk Slawi).</div>';
                         }
                     } catch (error) {
-                        list.innerHTML = '<div class="p-3 text-xs text-red-400">Gagal mencari lokasi. Cek internet Anda.</div>';
+                        list.innerHTML = '<div class="p-4 text-xs text-rose-400 text-center font-medium bg-rose-500/10">Koneksi terputus. Silakan coba lagi.</div>';
                     }
-                }, 800);
+                }, 600);
             });
         }
 
@@ -251,7 +318,7 @@
 
         // Rumus Haversine (Sistem Cadangan Jika API Rute Sibuk)
         function calculateStraightDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371e3; // Radius bumi dalam meter
+            const R = 6371e3; 
             const p1 = lat1 * Math.PI/180;
             const p2 = lat2 * Math.PI/180;
             const dp = (lat2-lat1) * Math.PI/180;
@@ -263,7 +330,7 @@
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
             const distance = R * c; 
-            return distance * 1.35; // Dikali 1.35 untuk estimasi belokan jalan raya sesungguhnya
+            return distance * 1.35; 
         }
 
         // Jalankan perhitungan KETIKA TOMBOL DIKLIK
@@ -272,11 +339,11 @@
             hideResult();
 
             if (!coordsOrigin) {
-                showError("Mohon ketik lalu PILIH Titik Jemput dari daftar saran yang muncul.");
+                showError("Pilih Titik Jemput dari daftar saran lokasi (wajib).");
                 return;
             }
             if (!coordsDest) {
-                showError("Mohon ketik lalu PILIH Tujuan dari daftar saran yang muncul.");
+                showError("Pilih Tujuan dari daftar saran lokasi (wajib).");
                 return;
             }
 
@@ -284,7 +351,6 @@
             let distanceMeters = 0;
             
             try {
-                // Menggunakan endpoint routing OSM resmi yang lebih stabil
                 const url = `https://routing.openstreetmap.de/routed-car/route/v1/driving/${coordsOrigin.lon},${coordsOrigin.lat};${coordsDest.lon},${coordsDest.lat}?overview=false`;
                 
                 const response = await fetch(url);
@@ -296,9 +362,8 @@
                     throw new Error("Rute tidak valid");
                 }
             } catch (error) {
-                // FALLBACK: JIKA SERVER OSM SIBUK/DOWN, GUNAKAN RUMUS MATEMATIKA KOORDINAT
                 console.warn("Server Rute Sibuk. Menggunakan rumus kalkulasi jarak matematis.", error);
-                document.getElementById('loading-text').innerText = "Server sibuk. Menggunakan rute alternatif...";
+                document.getElementById('loading-text').innerText = "Mengalihkan ke sistem rute satelit...";
                 
                 distanceMeters = calculateStraightDistance(
                     coordsOrigin.lat, coordsOrigin.lon,
@@ -309,7 +374,7 @@
             // Memproses Jarak & Harga Akhir
             setTimeout(() => {
                 showLoading(false);
-                document.getElementById('loading-text').innerText = "Menghitung jarak & tarif..."; // kembalikan text
+                document.getElementById('loading-text').innerText = "Kalkulasi rute cerdas..."; 
 
                 if (distanceMeters > 0) {
                     const distanceKm = (distanceMeters / 1000).toFixed(2);
@@ -320,7 +385,7 @@
                     finalDistanceText = distanceKm;
                     finalPriceText = price;
                     
-                    document.getElementById('distance-display').innerText = `${distanceKm} KM`;
+                    document.getElementById('distance-display').innerText = distanceKm;
                     document.getElementById('price-display').innerText = formatRupiah(price);
                     
                     document.getElementById('btn-calculate').classList.add('hidden');
@@ -328,7 +393,7 @@
                 } else {
                     showError("Gagal menghitung jarak. Coba atur ulang titik lokasi Anda.");
                 }
-            }, 500); // Sedikit jeda agar transisi lebih mulus
+            }, 800); 
         }
 
         // Proses Pesan WhatsApp
@@ -344,7 +409,7 @@
             const orderId = "OJK-" + Date.now().toString().slice(-6);
             const waktuOrder = new Date().toLocaleString('id-ID');
             
-            const textMessage = `Halo Ojeg Kilat.\n\n*DETAIL ORDER:*\n🆔 *ID:* ${orderId}\n👤 *Nama:* ${customerName}\n📍 *Jemput:* ${finalOriginName}\n🏁 *Tujuan:* ${finalDestName}\n📏 *Jarak:* ${finalDistanceText} KM\n💰 *Tarif:* ${hargaRupiah}\n\nMohon konfirmasi.`;
+            const textMessage = `Halo Ojeg Bregas Kilat.\n\n*DETAIL ORDER:*\n🆔 *ID:* ${orderId}\n👤 *Nama:* ${customerName}\n📍 *Jemput:* ${finalOriginName}\n🏁 *Tujuan:* ${finalDestName}\n📏 *Jarak:* ${finalDistanceText} KM\n💰 *Tarif:* ${hargaRupiah}\n\nMohon konfirmasi ketersediaan driver.`;
             
             saveToGoogleSheets(orderId, waktuOrder, customerName, finalOriginName, finalDestName, finalDistanceText, finalPriceText);
             
@@ -401,6 +466,8 @@
             coordsDest = null;
             hideResult();
             hideError();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
